@@ -9,55 +9,56 @@ namespace JM_RPS_Lab
         public string[,] WinTable { get; set; } = new string[3, 3] { { "D", "L", "D" },
                                                                      { "W", "D", "L" },
                                                                      { "L", "W", "D" } };
-        public Player uPlay { get; set; }
+        public Player PlayerOne { get; set; }
         public Player Opponent { get; set; }
 
         public List<RPS> Possibles { get; set; } = new List<RPS> { RPS.Rock, RPS.Paper, RPS.Scissor };
         public RPSApp()
         {
-            this.uPlay = new UserPlayer();
-            Player opFor = new Rocky();
+            this.PlayerOne = new UserPlayer();
+            //Player opFor;
             Console.WriteLine("Please pick an Opponent: \n[1]Rocky\n[2]Randa");           
             string response = Console.ReadLine();
             
-            bool stillChoosing = true;
-            //while (stillChoosing)
-            //{
+            //bool stillChoosing = true;
+
                 switch (response)
                 {
                     case "1":
-                        opFor = new Rocky();
+                        this.Opponent = new Rocky();
                         break;
                     case "2":
-                        opFor = new Randa();
+                        this.Opponent = new Randa();
                         break;
                     default:
                         Console.WriteLine("That's not a valid choice.");
                         break;
                 }
-            //}
-            this.Opponent = opFor;            
+           //this.Opponent = opFor;            
         }
 
         public Player Play()
         {
-            RPS playerRPS = uPlay.GenerateRPS();
+            UserPlayer drawPlayer = new UserPlayer("Draw");
+            RPS playerRPS = PlayerOne.GenerateRPS();
             RPS opFor = Opponent.GenerateRPS();
-            Console.WriteLine($"{Opponent.Name} chooses {Opponent.RockPaperScissor}");
+            Console.WriteLine($"{Opponent.Name} chooses {opFor}");
 
             int uPlayer = Possibles.IndexOf(playerRPS);
             int opPlay = Possibles.IndexOf(opFor);
 
             string areTheOddsInYourFavor = WinTable[uPlayer, opPlay];
-            Player winner = new Rocky();
 
-            //string response = "";
+
+            Player winner = drawPlayer;
+
             switch (areTheOddsInYourFavor)
             {
                 case "D":
-                    return null;                    
+                    winner = null;
+                    break;
                 case "W":
-                    winner = uPlay;
+                    winner = PlayerOne;
                     break;
                 case "L":
                     winner = Opponent;
