@@ -10,44 +10,49 @@ namespace JM_RPS_Lab
                                                                      { "W", "D", "L" },
                                                                      { "L", "W", "D" } };
         public Player PlayerOne { get; set; }
+        public int PlayerOneWins { get; set; } = 0;
         public Player Opponent { get; set; }
-
-        public List<RPS> Possibles { get; set; } = new List<RPS> { RPS.Rock, RPS.Paper, RPS.Scissor };
+        public int OpponentWins { get; set; } = 0;
+        public int Draws { get; set; } = 0;
         public RPSApp()
         {
             this.PlayerOne = new UserPlayer();
-            //Player opFor;
-            Console.WriteLine("Please pick an Opponent: \n[1]Rocky\n[2]Randa");           
-            string response = Console.ReadLine();
-            
-            //bool stillChoosing = true;
-
-                switch (response)
-                {
-                    case "1":
-                        this.Opponent = new Rocky();
-                        break;
-                    case "2":
-                        this.Opponent = new Randa();
-                        break;
-                    default:
-                        Console.WriteLine("That's not a valid choice.");
-                        break;
-                }
-           //this.Opponent = opFor;            
+            this.Opponent = PickOpponent();
+                   
         }
+        public Player PickOpponent()
+        {
+            //Have PlayerOne pick their opponent
+            //Creating a method that returns the player so that I can force the user to select an opponent
+            //Previously, the following switch was in the constructor and I was using a a default opponent, set to new Randa();
+            //if I didn't get a 1 or 2
+            Console.WriteLine("\nChoose your Oppoent from the list:");
+            Console.WriteLine("[1]Rocky\n[2]Randa");
+            Console.Write("Selection: ");
+            string response = Console.ReadLine();
+            switch (response)
+            {
+                case "1":
+                    return new Rocky();
 
+                case "2":
+                    return new Randa();
+
+                default:
+                    Console.WriteLine("That's not a valid choice.");
+                    break;
+            }
+            return PickOpponent();
+        }
         public Player Play()
         {
             UserPlayer drawPlayer = new UserPlayer("Draw");
-            RPS playerRPS = PlayerOne.GenerateRPS();
-            RPS opFor = Opponent.GenerateRPS();
-            Console.WriteLine($"{Opponent.Name} chooses {opFor}");
+            PlayerOne.GenerateRPS();
+            Opponent.GenerateRPS();
+            Console.WriteLine($"{PlayerOne.Name} chooses {PlayerOne.RockPaperScissor}");
+            Console.WriteLine($"{Opponent.Name} chooses {Opponent.RockPaperScissor}");
 
-            int uPlayer = Possibles.IndexOf(playerRPS);
-            int opPlay = Possibles.IndexOf(opFor);
-
-            string areTheOddsInYourFavor = WinTable[uPlayer, opPlay];
+           string areTheOddsInYourFavor = WinTable[(int)PlayerOne.RockPaperScissor, (int)Opponent.RockPaperScissor];
 
 
             Player winner = drawPlayer;
@@ -55,13 +60,16 @@ namespace JM_RPS_Lab
             switch (areTheOddsInYourFavor)
             {
                 case "D":
-                    winner = null;
+                    winner = drawPlayer;
+                    Draws++;
                     break;
                 case "W":
                     winner = PlayerOne;
+                    PlayerOneWins++;
                     break;
                 case "L":
                     winner = Opponent;
+                    OpponentWins++;
                     break;
             }
             return winner;

@@ -22,23 +22,23 @@ namespace JM_RPS_Lab
         {
             Console.WriteLine("Please choose:\n[1]Rock\n[2]Paper\n[3]Scissor");
             string response = Console.ReadLine();
-            RPS choice;
+            //RPS choice;
             switch (response)
             {
                 case "1":
-                    choice = RPS.Rock;
+                    RockPaperScissor = RPS.Rock;
                     break;
                 case "2":
-                    choice = RPS.Paper;
+                    RockPaperScissor = RPS.Paper;
                     break;
                 case "3":
-                    choice = RPS.Scissor;
+                    RockPaperScissor = RPS.Scissor;
                     break;
                 default:
                     Console.WriteLine("Invalid Choice");
                     return GenerateRPS();
             }
-            return choice;
+            return RockPaperScissor;
         }
     }
 }

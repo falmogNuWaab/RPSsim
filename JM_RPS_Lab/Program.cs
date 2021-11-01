@@ -15,22 +15,18 @@ namespace JM_RPS_Lab
             while (keepPlaying)
             {
                 Player winner = gameTime.Play();
-                
-                if (winner == null)
-                {
-                    Leaderboard.Add(drawPlayer);
-                    winner = drawPlayer;
-                }
-                else
-                {
-                    Leaderboard.Add(winner);
-                }
+                Leaderboard.Add(winner);
+
                 Console.WriteLine($"Winner: {winner.Name}");
                 Console.WriteLine();
                 keepPlaying = Continue();
                 
             }
             Console.WriteLine("\n!WINNER CIRCLE!");
+            
+            Console.WriteLine("This Round: ");
+            Console.WriteLine($"Win:{gameTime.PlayerOneWins} Lose:{gameTime.OpponentWins} Draw:{gameTime.Draws}");
+            Console.WriteLine();
             for (int i = 0; i < Leaderboard.Count; i++)
             {
                 Console.WriteLine($"{i+1}: {Leaderboard[i].Name}");
