@@ -13,24 +13,24 @@ namespace JM_RPS_Lab
         public override RPS GenerateRPS()
         {
             Random rand = new Random();
-            int om = 0;
-                om = rand.Next(0, 3);
-            RPS choice;
+            int om = rand.Next(0, 3);
+            //om = 
+            //RPS choice;
             switch (om)
             {
                 case 0:
-                    choice = RPS.Rock;
+                    RockPaperScissor = RPS.Rock;
                     break;
                 case 1:
-                    choice = RPS.Paper;
+                    RockPaperScissor = RPS.Paper;
                     break;
                 case 2:
-                    choice = RPS.Scissor;
+                    RockPaperScissor = RPS.Scissor;
                     break;
                 default:
                     return GenerateRPS();
             }
-            return choice;
+            return RockPaperScissor;
         }
 
     }
